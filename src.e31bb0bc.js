@@ -32492,6 +32492,7 @@ const App = ({
   };
 
   const signIn = () => {
+    console.log("signing in - ", wallet);
     wallet.requestSignIn(nearConfig.contractName, 'NEAR Guest Book');
   };
 
@@ -32532,7 +32533,7 @@ App.propTypes = {
 var _default = App;
 exports.default = _default;
 },{"regenerator-runtime/runtime":"../node_modules/regenerator-runtime/runtime.js","react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","big.js":"../node_modules/big.js/big.js","./components/Form":"components/Form.jsx","./components/SignIn":"components/SignIn.jsx","./components/Messages":"components/Messages.jsx"}],"config.js":[function(require,module,exports) {
-const CONTRACT_NAME = "goteam.test.near" || 'guest-book.testnet';
+const CONTRACT_NAME = "guest-book.test.near" || 'guest-book.testnet';
 
 function getConfig(env) {
   switch (env) {
@@ -32568,11 +32569,12 @@ function getConfig(env) {
       };
 
     case 'local':
+      console.log("IM USING LOCALNET IN CONFIG");
       return {
         networkId: 'localnet',
-        nodeUrl: 'http://127.0.0.1:63437',
-        keyPath: `/Users/benjaminkurrek/.neartosis/2021-11-24T09.38.32/validator-key.json`,
-        walletUrl: 'http://127.0.0.1:59537',
+        nodeUrl: 'http://127.0.0.1:50063',
+        keyPath: `/Users/benjaminkurrek/.neartosis/2021-11-24T13.45.49/validator-key.json`,
+        walletUrl: 'http://127.0.0.1:50068',
         contractName: CONTRACT_NAME
       };
 
@@ -52336,7 +52338,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 async function initContract() {
   // get network configuration values from config.js
   // based on the network ID we pass to getConfig()
-  const nearConfig = (0, _config.default)("development" || 'testnet'); // create a keyStore for signing transactions using the user's key
+  const nearConfig = (0, _config.default)("development" || 'testnet');
+  console.log("Near config done"); // create a keyStore for signing transactions using the user's key
   // which is located in the browser local storage after user logs in
 
   const keyStore = new nearAPI.keyStores.BrowserLocalStorageKeyStore(); // Initializing connection to the NEAR testnet
@@ -52344,9 +52347,11 @@ async function initContract() {
   const near = await nearAPI.connect({
     keyStore,
     ...nearConfig
-  }); // Initialize wallet connection
+  });
+  console.log("Near done", near); // Initialize wallet connection
 
-  const walletConnection = new nearAPI.WalletConnection(near); // Load in user's account data
+  const walletConnection = new nearAPI.WalletConnection(near);
+  console.log("Wallet done", walletConnection); // Load in user's account data
 
   let currentUser;
 
@@ -52373,6 +52378,7 @@ async function initContract() {
     // getAccountId() will return empty string if user is still unauthorized
     sender: walletConnection.getAccountId()
   });
+  console.log("Contract done", contract);
   return {
     contract,
     currentUser,
@@ -52422,7 +52428,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64091" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50274" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
