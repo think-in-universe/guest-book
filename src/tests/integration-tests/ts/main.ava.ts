@@ -13,7 +13,7 @@ test.beforeEach(async (t) => {
   // deploy contract
   const root = worker.rootAccount;
   const contract = await root.createAndDeploy(
-    root.getSubAccount("rust-counter").accountId,
+    root.getSubAccount("guest-book").accountId,
     "./out/main.wasm",
     { initialBalance: NEAR.parse("30 N").toJSON() }
   );
@@ -41,11 +41,18 @@ test.afterEach(async (t) => {
   });
 });
 
-test("#TODO", async (t) => {
-    // const { root, contract } = t.context.accounts;
+test("send one message and retrieve it", async (t) => {
+    const { root, contract, alice, bob, charlie } = t.context.accounts;
     // const startCounter: number = await contract.view("get_num", {});
     // await root.call(contract, "increment", {});
     // const endCounter = await contract.view("get_num", {});
     // t.is(endCounter, startCounter + 1);
-    console.log("✅");
+    await root.call(contract, "addMessage", { text: 'aloha' });
+    const msgs = await contract.view("getMessages");
+    const expectedMessagesResult = [{
+      premium: false,
+      sender: root.accountId,
+      text: 'aloha'
+    }];
+    t.deepEqual(msgs, expectedMessagesResult);
   });
