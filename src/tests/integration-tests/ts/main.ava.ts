@@ -43,10 +43,6 @@ test.afterEach(async (t) => {
 
 test("send one message and retrieve it", async (t) => {
     const { root, contract, alice, bob, charlie } = t.context.accounts;
-    // const startCounter: number = await contract.view("get_num", {});
-    // await root.call(contract, "increment", {});
-    // const endCounter = await contract.view("get_num", {});
-    // t.is(endCounter, startCounter + 1);
     await root.call(contract, "addMessage", { text: 'aloha' });
     const msgs = await contract.view("getMessages");
     const expectedMessagesResult = [{
