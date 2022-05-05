@@ -12,9 +12,9 @@
     "lint": "eslint \"./**/*.js\" \"./**/*.jsx\"",
     "start": "yarn deploy && parcel src/index.html",
     "dev:start": "env-cmd -f ./neardev/dev-account.env parcel src/index.html",
-    "test": "npm run build:contract && npm run test:unit && npm run test:integration",
+    "test": "npm run test:unit && npm run test:integration",
     "test:unit": "yarn build:contract:debug && asp && jest",
-    "test:integration": "npm run test:integration:ts && npm run test:integration:rs",
+    "test:integration": "yarn build:contract:debug && npm run test:integration:ts && npm run test:integration:rs",
     "test:integration:ts": "ava --verbose",
     "test:integration:rs": "echo '#TODO'"
   },
