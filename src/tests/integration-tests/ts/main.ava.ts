@@ -52,3 +52,12 @@ test("send one message and retrieve it", async (t) => {
     }];
     t.deepEqual(msgs, expectedMessagesResult);
   });
+
+  test("send two messages and expect two total", async (t) => {
+    const { root, contract, alice, bob, charlie } = t.context.accounts;
+    await root.call(contract, "addMessage", { text: 'aloha' });
+    await alice.call(contract, "addMessage", { text: 'hola' });
+    const msgs: Object[] = await contract.view("getMessages");
+    const expected = 2;
+    t.deepEqual(msgs.length, expected);
+  });
