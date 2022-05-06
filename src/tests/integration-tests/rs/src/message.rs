@@ -42,6 +42,6 @@ async fn main() -> anyhow::Result<()> {
     );    
 
     assert_eq!(result, expected);
-    println!("             Passed ✅");
+    println!("      Passed ✅");
     Ok(())
 }
