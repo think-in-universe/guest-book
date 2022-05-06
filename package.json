@@ -16,7 +16,7 @@
     "test:unit": "yarn build:contract:debug && asp && jest",
     "test:integration": "yarn build:contract:debug && npm run test:integration:ts && npm run test:integration:rs",
     "test:integration:ts": "ava --verbose",
-    "test:integration:rs": "echo '#TODO'"
+    "test:integration:rs": "cd src/tests/integration-tests/rs && cargo run --example message"
   },
   "devDependencies": {
     "@babel/core": "^7.17.0",
