@@ -42,22 +42,34 @@ test.afterEach(async (t) => {
 });
 
 test("send one message and retrieve it", async (t) => {
-    const { root, contract, alice, bob, charlie } = t.context.accounts;
-    await root.call(contract, "addMessage", { text: 'aloha' });
-    const msgs = await contract.view("getMessages");
-    const expectedMessagesResult = [{
+  const { root, contract, alice, bob, charlie } = t.context.accounts;
+  await root.call(contract, "addMessage", { text: "aloha" });
+  const msgs = await contract.view("getMessages");
+  const expectedMessagesResult = [
+    {
       premium: false,
       sender: root.accountId,
-      text: 'aloha'
-    }];
-    t.deepEqual(msgs, expectedMessagesResult);
-  });
+      text: "aloha",
+    },
+  ];
+  t.deepEqual(msgs, expectedMessagesResult);
+});
 
-  test("send two messages and expect two total", async (t) => {
-    const { root, contract, alice, bob, charlie } = t.context.accounts;
-    await root.call(contract, "addMessage", { text: 'aloha' });
-    await alice.call(contract, "addMessage", { text: 'hola' });
-    const msgs: Object[] = await contract.view("getMessages");
-    const expected = 2;
-    t.deepEqual(msgs.length, expected);
-  });
+test("send two messages and expect two total", async (t) => {
+  const { root, contract, alice, bob, charlie } = t.context.accounts;
+  await root.call(contract, "addMessage", { text: "aloha" });
+  await alice.call(contract, "addMessage", { text: "hola" });
+  const msgs = await contract.view("getMessages");
+  const expected = [
+    {
+      premium: false,
+      sender: root.accountId,
+      text: "aloha",
+    },
+    { premium: false, 
+      sender: alice.accountId, 
+      text: "hola" 
+    },
+  ];
+  t.deepEqual(msgs, expected);
+});

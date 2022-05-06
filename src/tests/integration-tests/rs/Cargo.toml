@@ -21,3 +21,7 @@ pkg-config = "0.3.1"
 [[example]]
 name = "message"
 path = "src/message.rs"
+
+[[example]]
+name = "messages"
+path = "src/messages.rs"
