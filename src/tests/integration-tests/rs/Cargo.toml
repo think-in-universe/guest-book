@@ -19,9 +19,5 @@ workspaces = "0.2.1"
 pkg-config = "0.3.1"
 
 [[example]]
-name = "message"
-path = "src/message.rs"
-
-[[example]]
-name = "messages"
-path = "src/messages.rs"
+name = "integration-tests"
+path = "src/tests.rs"
