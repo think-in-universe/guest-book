@@ -1,0 +1,20 @@
+{
+  "name": "guest-book",
+  "version": "1.0.0",
+  "description": "Guest Book example with near-sdk-js",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "near-sdk build",
+    "test": "ava"
+  },
+  "author": "Near Inc <hello@nearprotocol.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "near-sdk-js": "file:../../near-sdk-js"
+  },
+  "devDependencies": {
+    "ava": "^4.2.0",
+    "near-workspaces": "^2.0.0"
+  }
+}
