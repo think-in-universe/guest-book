@@ -18,7 +18,7 @@ function getConfig(env) {
     case 'testnet':
       return {
         networkId: 'testnet',
-        nodeUrl: 'https://public-rpc.blockpi.io/http/near-testnet', // 'https://rpc.testnet.near.org',
+        nodeUrl: 'https://rpc.testnet.near.org',
         contractName: JSVM_ACCOUNT,
         jsContractName: JS_CONTRACT,
         walletUrl: 'https://wallet.testnet.near.org',
