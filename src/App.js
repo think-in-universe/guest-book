@@ -9,12 +9,43 @@ import Messages from './components/Messages';
 const SUGGESTED_DONATION = '0';
 const BOATLOAD_OF_GAS = Big(3).times(10 ** 13).toFixed();
 
-const App = ({ contract, currentUser, nearConfig, wallet }) => {
+const encode_call = (contractAccount, methodName, args) => {
+  return Buffer.concat([
+    Buffer.from(contractAccount),
+    Buffer.from([0]),
+    Buffer.from(methodName),
+    Buffer.from([0]),
+    Buffer.from(JSON.stringify(args))
+  ]);
+}
+
+const App = ({ account, contract, currentUser, nearConfig, wallet }) => {
   const [messages, setMessages] = useState([]);
+
+  const getMessages = () => {
+    return account.viewFunction(
+      nearConfig.contractName,
+      "view_js_contract",
+      encode_call(nearConfig.jsContractName, "getMessages", []),
+      {
+        stringify: (val) => val
+      }
+    );
+  }
+
+  const addMessage = ({ text }, gas, deposit) => {
+    return account.functionCall(
+      nearConfig.contractName,
+      "call_js_contract",
+      encode_call(nearConfig.jsContractName, "addMessage", [text]),
+      gas,
+      deposit
+    );
+  }
 
   useEffect(() => {
     // TODO: don't just fetch once; subscribe!
-    contract.getMessages().then(setMessages);
+    getMessages().then(setMessages);
   }, []);
 
   const onSubmit = (e) => {
@@ -27,12 +58,12 @@ const App = ({ contract, currentUser, nearConfig, wallet }) => {
     // TODO: optimistically update page with new message,
     // update blockchain data in background
     // add uuid to each message, so we know which one is already known
-    contract.addMessage(
+    addMessage(
       { text: message.value },
       BOATLOAD_OF_GAS,
-      Big(donation.value || '0').times(10 ** 24).toFixed()
+      Big(Number(donation.value) || '0.01').times(10 ** 24).toFixed()
     ).then(() => {
-      contract.getMessages().then(messages => {
+      getMessages().then(messages => {
         setMessages(messages);
         message.value = '';
         donation.value = SUGGESTED_DONATION;
@@ -44,7 +75,7 @@ const App = ({ contract, currentUser, nearConfig, wallet }) => {
 
   const signIn = () => {
     wallet.requestSignIn(
-      {contractId: nearConfig.contractName, methodNames: [contract.addMessage.name]}, //contract requesting access
+      {contractId: nearConfig.contractName, methodNames: [contract.call_js_contract.name]}, //contract requesting access
       'NEAR Guest Book', //optional name
       null, //optional URL to redirect to if the sign in was successful
       null //optional URL to redirect to if the sign in was NOT successful
@@ -76,8 +107,8 @@ const App = ({ contract, currentUser, nearConfig, wallet }) => {
 
 App.propTypes = {
   contract: PropTypes.shape({
-    addMessage: PropTypes.func.isRequired,
-    getMessages: PropTypes.func.isRequired
+    call_js_contract: PropTypes.func.isRequired,
+    view_js_contract: PropTypes.func.isRequired
   }).isRequired,
   currentUser: PropTypes.shape({
     accountId: PropTypes.string.isRequired,
