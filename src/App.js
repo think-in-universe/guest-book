@@ -9,7 +9,7 @@ import Messages from './components/Messages';
 const SUGGESTED_DONATION = '0';
 const BOATLOAD_OF_GAS = Big(3).times(10 ** 13).toFixed();
 
-const encode_call = (contractAccount, methodName, args) => {
+const encodeCall = (contractAccount, methodName, args) => {
   return Buffer.concat([
     Buffer.from(contractAccount),
     Buffer.from([0]),
@@ -26,7 +26,7 @@ const App = ({ account, contract, currentUser, nearConfig, wallet }) => {
     return account.viewFunction(
       nearConfig.contractName,
       "view_js_contract",
-      encode_call(nearConfig.jsContractName, "getMessages", []),
+      encodeCall(nearConfig.jsContractName, "getMessages", []),
       {
         stringify: (val) => val
       }
@@ -37,7 +37,7 @@ const App = ({ account, contract, currentUser, nearConfig, wallet }) => {
     return account.functionCall(
       nearConfig.contractName,
       "call_js_contract",
-      encode_call(nearConfig.jsContractName, "addMessage", [text]),
+      encodeCall(nearConfig.jsContractName, "addMessage", [text]),
       gas,
       deposit
     );
