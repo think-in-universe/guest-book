@@ -34529,7 +34529,7 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 const SUGGESTED_DONATION = '0';
 const BOATLOAD_OF_GAS = (0, _big.default)(3).times(10 ** 13).toFixed();
 
-const encode_call = (contractAccount, methodName, args) => {
+const encodeCall = (contractAccount, methodName, args) => {
   return Buffer.concat([Buffer.from(contractAccount), Buffer.from([0]), Buffer.from(methodName), Buffer.from([0]), Buffer.from(JSON.stringify(args))]);
 };
 
@@ -34544,7 +34544,7 @@ const App = _ref => {
   const [messages, setMessages] = (0, _react.useState)([]);
 
   const getMessages = () => {
-    return account.viewFunction(nearConfig.contractName, "view_js_contract", encode_call(nearConfig.jsContractName, "getMessages", []), {
+    return account.viewFunction(nearConfig.contractName, "view_js_contract", encodeCall(nearConfig.jsContractName, "getMessages", []), {
       stringify: val => val
     });
   };
@@ -34553,7 +34553,7 @@ const App = _ref => {
     let {
       text
     } = _ref2;
-    return account.functionCall(nearConfig.contractName, "call_js_contract", encode_call(nearConfig.jsContractName, "addMessage", [text]), gas, deposit);
+    return account.functionCall(nearConfig.contractName, "call_js_contract", encodeCall(nearConfig.jsContractName, "addMessage", [text]), gas, deposit);
   };
 
   (0, _react.useEffect)(() => {
@@ -34634,7 +34634,7 @@ var _default = App;
 exports.default = _default;
 },{"regenerator-runtime/runtime":"../node_modules/regenerator-runtime/runtime.js","react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","big.js":"../node_modules/big.js/big.js","./components/Form":"components/Form.jsx","./components/SignIn":"components/SignIn.jsx","./components/Messages":"components/Messages.jsx","buffer":"../node_modules/buffer/index.js"}],"config.js":[function(require,module,exports) {
 const JSVM_ACCOUNT = undefined || 'jsvm.testnet';
-const JS_CONTRACT = undefined || "gb.js.bot.testnet";
+const JS_CONTRACT = undefined || "guest-book-js.testnet";
 
 function getConfig(env) {
   switch (env) {
@@ -34643,6 +34643,7 @@ function getConfig(env) {
         networkId: 'mainnet',
         nodeUrl: 'https://rpc.mainnet.near.org',
         contractName: JSVM_ACCOUNT,
+        jsContractName: JS_CONTRACT,
         walletUrl: 'https://wallet.near.org',
         helperUrl: 'https://helper.mainnet.near.org'
       };
@@ -34654,8 +34655,7 @@ function getConfig(env) {
     case 'testnet':
       return {
         networkId: 'testnet',
-        nodeUrl: 'https://public-rpc.blockpi.io/http/near-testnet',
-        // 'https://rpc.testnet.near.org',
+        nodeUrl: 'https://rpc.testnet.near.org',
         contractName: JSVM_ACCOUNT,
         jsContractName: JS_CONTRACT,
         walletUrl: 'https://wallet.testnet.near.org',
@@ -34667,6 +34667,7 @@ function getConfig(env) {
         networkId: 'betanet',
         nodeUrl: 'https://rpc.betanet.near.org',
         contractName: JSVM_ACCOUNT,
+        jsContractName: JS_CONTRACT,
         walletUrl: 'https://wallet.betanet.near.org',
         helperUrl: 'https://helper.betanet.near.org'
       };
@@ -34677,7 +34678,8 @@ function getConfig(env) {
         nodeUrl: 'http://localhost:3030',
         keyPath: `${"/Users/robort"}/.near/validator_key.json`,
         walletUrl: 'http://localhost:4000/wallet',
-        contractName: JSVM_ACCOUNT
+        contractName: JSVM_ACCOUNT,
+        jsContractName: JS_CONTRACT
       };
 
     case 'test':
@@ -34686,6 +34688,7 @@ function getConfig(env) {
         networkId: 'shared-test',
         nodeUrl: 'https://rpc.ci-testnet.near.org',
         contractName: JSVM_ACCOUNT,
+        jsContractName: JS_CONTRACT,
         masterAccount: 'test.near'
       };
 
@@ -34694,6 +34697,7 @@ function getConfig(env) {
         networkId: 'shared-test-staging',
         nodeUrl: 'https://rpc.ci-betanet.near.org',
         contractName: JSVM_ACCOUNT,
+        jsContractName: JS_CONTRACT,
         masterAccount: 'test.near'
       };
 
@@ -49395,7 +49399,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52404" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62828" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
