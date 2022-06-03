@@ -1,5 +1,5 @@
 const JSVM_ACCOUNT = process.env.JSVM_ACCOUNT || 'jsvm.testnet';
-const JS_CONTRACT = process.env.JS_CONTRACT || "gb.js.bot.testnet";
+const JS_CONTRACT = process.env.JS_CONTRACT || "guest-book-js.testnet";
 
 function getConfig(env) {
   switch(env) {
@@ -8,6 +8,7 @@ function getConfig(env) {
         networkId: 'mainnet',
         nodeUrl: 'https://rpc.mainnet.near.org',
         contractName: JSVM_ACCOUNT,
+        jsContractName: JS_CONTRACT,
         walletUrl: 'https://wallet.near.org',
         helperUrl: 'https://helper.mainnet.near.org'
       };
@@ -29,6 +30,7 @@ function getConfig(env) {
         networkId: 'betanet',
         nodeUrl: 'https://rpc.betanet.near.org',
         contractName: JSVM_ACCOUNT,
+        jsContractName: JS_CONTRACT,
         walletUrl: 'https://wallet.betanet.near.org',
         helperUrl: 'https://helper.betanet.near.org'
       };
@@ -38,7 +40,8 @@ function getConfig(env) {
         nodeUrl: 'http://localhost:3030',
         keyPath: `${process.env.HOME}/.near/validator_key.json`,
         walletUrl: 'http://localhost:4000/wallet',
-        contractName: JSVM_ACCOUNT
+        contractName: JSVM_ACCOUNT,
+        jsContractName: JS_CONTRACT,
       };
     case 'test':
     case 'ci':
@@ -46,6 +49,7 @@ function getConfig(env) {
         networkId: 'shared-test',
         nodeUrl: 'https://rpc.ci-testnet.near.org',
         contractName: JSVM_ACCOUNT,
+        jsContractName: JS_CONTRACT,
         masterAccount: 'test.near'
       };
     case 'ci-betanet':
@@ -53,6 +57,7 @@ function getConfig(env) {
         networkId: 'shared-test-staging',
         nodeUrl: 'https://rpc.ci-betanet.near.org',
         contractName: JSVM_ACCOUNT,
+        jsContractName: JS_CONTRACT,
         masterAccount: 'test.near'
       };
     default:
